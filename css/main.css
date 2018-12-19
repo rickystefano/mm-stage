@@ -10,6 +10,8 @@ body {
   background: #1a1a1a;
 }
 
+
+/* image background */
 #slide {
   height: 100%;
   position: absolute;
@@ -18,10 +20,8 @@ body {
   z-index: 0;
 }
 
-.active {
-  transition: 2s ease;
-}
 
+/* arrows */
 #arrow-left,
 #arrow-right {
   margin: 20px;
@@ -37,7 +37,6 @@ body {
 }
 #arrow-right {
   right: 0%;
-  /* transform: translateY(-50%) translateX(-400%); */
 }
 .line-left,
 .line-right {
@@ -67,11 +66,13 @@ body {
   transform: rotate(45deg) translateY(-50%);
 }
 
+
+/* logo */
 #logo {
   position: absolute;
   bottom: 0;
   right: 0;
-  margin: 0 15px 15px 0;
+  margin: 0 15px 0px 0;
   z-index: 90;
 }
 
@@ -79,6 +80,8 @@ body {
   fill: #fff;
 }
 
+
+/* become */
 #become {
   position:relative;
   width: 75%;
@@ -113,4 +116,55 @@ body {
 .become-text i {
   margin-right: 15px;
   margin-left: 20px
+}
+
+/* navigator */
+#nav {
+  position: absolute;
+  max-width: 400px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  border-style: dotted;
+  border-color: white;
+  border-width: 4px 0px;
+  margin: 0 0 12px 12px;
+}
+
+#nav div.nav-item {
+  float: left;
+  color: white;
+  width: calc(100% / 10);
+  border-style: dotted;
+  border-color: white;
+  border-width: 0 4px 0 0;
+  padding: 1px;
+  text-align: center;
+  font-family: "Klavika medium";
+  position: relative;
+  cursor: pointer;
+}
+
+#nav div.nav-item:first-child {
+  border-width: 0 4px 0 4px;
+}
+
+#nav div.nav-active::after {
+  content: "";
+  position: absolute;
+  background: white;
+  width: 60%;
+  height: 60%;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -50%)
+}
+
+@media screen and (max-width: 484px){
+  #logo {
+    bottom: 42px;
+  }
+  #nav {
+    margin-left: 0px;
+  }
 }
