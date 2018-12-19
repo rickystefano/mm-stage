@@ -1,0 +1,26 @@
+@import url("../font/klavika-bold-webfont.woff");
+@import url("../font/klavika-light-webfont.woff");
+@import url("../font/klavika-medium-webfont.woff");
+@import url("../font/klavika-regular-webfont.woff");
+
+@font-face {
+  font-family: "Klavika bold";
+  src: url("../font/klavika-bold-webfont.woff");
+}
+@font-face {
+  font-family: "Klavika light";
+  src: url("../font/klavika-light-webfont.woff");
+}@font-face {
+  font-family: "Klavika medium";
+  src: url("../font/klavika-medium-webfont.woff");
+}@font-face {
+  font-family: "Klavika regular";
+  src: url("../font/klavika-regular-webfont.woff");
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

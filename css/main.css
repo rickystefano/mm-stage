@@ -1,0 +1,116 @@
+body {
+  background: #1a1a1a;
+}
+
+#container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background: #1a1a1a;
+}
+
+#slide {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50px;
+  z-index: 0;
+}
+
+.active {
+  transition: 2s ease;
+}
+
+#arrow-left,
+#arrow-right {
+  margin: 20px;
+  height: 60px;
+  width: 30px;
+  overflow: hidden;
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-block;
+  z-index: 100;
+}
+#arrow-right {
+  right: 0%;
+  /* transform: translateY(-50%) translateX(-400%); */
+}
+.line-left,
+.line-right {
+  width: 154%;
+  height: 3px;
+  box-sizing: border-box;
+  position: absolute;
+  background-color: #fff;
+  left: -36%;
+}
+#arrow-right .line-left {
+  top: 25%;
+  transform: rotate(45deg) translateY(-50%);
+}
+
+#arrow-right .line-right {
+  top: 75%;
+  transform: rotate(135deg) translateY(-50%);
+}
+#arrow-left .line-left {
+  top: 25%;
+  transform: rotate(135deg) translateY(-50%);
+}
+
+#arrow-left .line-right {
+  top: 75%;
+  transform: rotate(45deg) translateY(-50%);
+}
+
+#logo {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 0 15px 15px 0;
+  z-index: 90;
+}
+
+#logo svg {
+  fill: #fff;
+}
+
+#become {
+  position:relative;
+  width: 75%;
+  height: 100%;
+  background: #1a1a1a;
+  text-align: right;
+  color: white;
+  padding: 10px;
+  font-family: "Klavika regular";
+  float: right;
+}
+
+#become h2 {
+  font-family: "Klavika light";
+  text-transform: uppercase;
+  text-decoration: underline;
+  font-size: 45px;
+}
+
+#become a {
+  color: currentColor;
+}
+
+.become-text {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 30px;
+  font-size: 18px
+}
+
+.become-text i {
+  margin-right: 15px;
+  margin-left: 20px
+}
