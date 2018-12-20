@@ -160,7 +160,80 @@ body {
   transform: translate(-50%, -50%)
 }
 
-@media screen and (max-width: 484px){
+#texts-wrapper {
+  position: relative;
+  /* background-color: red; */
+  width:  calc(100% - 84px);
+  height: calc(100% - 24px);
+  top: 12px;
+  left: 12px;
+  color: white;
+  font-family: "Klavika light";
+}
+
+#texts-wrapper h3 {
+  line-height: 80px;
+  font-size: 55px;
+  text-transform: uppercase;
+  text-decoration: underline;
+  position: absolute;
+  max-width:500px;
+  display: inline-block;
+  opacity: 1.0!;
+}
+
+#texts-wrapper p {
+  font-size: 15px;  
+  position: absolute;
+  max-width: 450px;
+  opacity: 1.0!;
+}
+
+#texts-wrapper h3.zero {
+  top: 0;
+  left: 0;
+}
+#texts-wrapper p.zero {
+  bottom: 58px;
+  left: 0;
+}
+
+#texts-wrapper h3.one {
+  top: 45%;
+  left: 45px;
+}
+
+#texts-wrapper h3.one,
+#texts-wrapper h3.two,
+#texts-wrapper h3.three,
+#texts-wrapper h3.six,
+#texts-wrapper h3.seven,
+#texts-wrapper h3.eight {
+  top: 45%;
+  left: 60px;
+}
+
+#texts-wrapper h3.four,
+#texts-wrapper h3.five {
+  text-align: right;
+  top: 45%;
+  right: 0;
+}
+
+#texts-wrapper p.one,
+#texts-wrapper p.two,
+#texts-wrapper p.three, 
+#texts-wrapper p.four,
+#texts-wrapper p.five,
+#texts-wrapper p.six,
+#texts-wrapper p.seven,
+#texts-wrapper p.eight {
+  bottom: 15px;
+  left: 412px;
+}
+
+
+@media screen and (max-width: 484px) {
   #logo {
     bottom: 42px;
   }

@@ -1,4 +1,4 @@
-let becomeWidthHelper;
+let becomeWidthHelper, becomeWidth;
 let currentSection = 0;
 let isAnimating = false;
 const bg = document.getElementById("slide");
@@ -9,6 +9,8 @@ const navigators = document.getElementsByClassName("nav-item");
 const screenWidth = document.getElementById("container").clientWidth;
 const bgLength = bg.clientWidth;
 const sectionLength = roundNumber(bgLength / 8.5);
+
+
 
 const step = {
   zero: {
@@ -64,9 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
   arrowLeft.style.visibility = "hidden";
   become.style.left = Math.ceil((screenWidth * 0.75) / 10) * 10 + "px";
   becomeWidthHelper = parseInt(become.style.left.replace("px", ""));
+});
 
-  
-})
+document.addEventListener("keydown", e => {
+  if(e.keyCode == 9) {
+    e.preventDefault();
+  }
+});
 
 
 for (let i = 0; i < navigators.length; i++) {
@@ -80,19 +86,64 @@ for (let i = 0; i < navigators.length; i++) {
 
 
 function slide(dir=null, ori=null, tar=null) {
-  let becomeWidth = becomeWidthHelper;
+  becomeWidth = becomeWidthHelper;
   let currentPos = parseInt(bg.style.left.replace("px", ""));
   let nextPos;
-  
+  const text = document.getElementById("text");
+  const subtext = document.getElementById("subtext");
+
+
+  if (currentSection != 9) {
+    // if  (dir == "left" && (currentSection == 7)) {
+    //   setTimeout(() => {
+    //     removeText();
+    //   }, 500);
+    // }
+    // else 
+    removeText();
+  }
+
   if(dir == "left") {
     nextPos = currentPos + sectionLength;
   } else if(dir == "right") {
     nextPos = currentPos - sectionLength;
   } else if(ori > tar) {
-    nextPos = currentPos + (sectionLength* (ori - tar));
+    if (ori == 8 && tar < 7) {
+      nextPos = currentPos + (sectionLength * (ori - tar - 1));
+    }
+    else if (ori == 9) {
+      if (tar == 8) nextPos = currentPos + sectionLength; 
+      else nextPos = currentPos + (sectionLength * (ori - tar - 1));
+    }
+    else {
+      nextPos = currentPos + (sectionLength* (ori - tar));
+    }
   } else if(ori < tar) {
-    nextPos = currentPos - (sectionLength * (tar - ori));
+    if (tar == 8 && ori < 7) {
+      nextPos = currentPos - (sectionLength * (tar - ori - 1));
+    } else if (tar == 9) {
+      if (ori == 8) nextPos = currentPos - sectionLength;
+      else nextPos = currentPos - (sectionLength * (tar - ori - 1));
+    } else {
+      nextPos = currentPos - (sectionLength * (tar - ori));
+    }
   }
+
+  if (ori == 9 && tar < 8) {
+    let pushHandler = setInterval(() => {
+      push()
+    }, 5);
+
+    function push() {
+      if (becomeWidth > becomeWidthHelper) {
+        clearInterval(pushHandler);
+      } else {
+        become.style.left = becomeWidth + (becomeWidth / 20) + "px";
+        becomeWidth = becomeWidth + (becomeWidth / 20);
+      }
+    }
+  }
+
 
   let animate = setInterval(() => {
     move()
@@ -102,11 +153,23 @@ function slide(dir=null, ori=null, tar=null) {
 
   function move() {
     if (currentPos == nextPos) {
-      if (currentSection == 9) {
-        console.log("we are done here")
-      }
       clearInterval(animate);
 
+      if (tar == 9 && ori < 8) {
+        let pullHandler = setInterval(() => {
+          pull()
+        }, 5);
+        //
+        function pull() {
+          if (becomeWidth < 1) {
+            clearInterval(pullHandler);
+          } else {
+            become.style.left = becomeWidth - (becomeWidth / 20) + "px";
+            becomeWidth = becomeWidth - (becomeWidth / 20);
+          }
+        } 
+      }
+  
       if (dir != null) {
         navigators[currentSection].classList.remove("nav-active");
         if (dir == "left") currentSection--;
@@ -116,9 +179,7 @@ function slide(dir=null, ori=null, tar=null) {
         currentSection = tar;
         navigators[ori].classList.remove("nav-active");
         navigators[tar].classList.add("nav-active");
-        // console.log(currentSection);
       }
-
       if (currentSection == 0) {
         arrowLeft.style.visibility = "hidden";
       } 
@@ -130,6 +191,17 @@ function slide(dir=null, ori=null, tar=null) {
       }
       else{
         arrowRight.style.visibility = "visible";
+      }
+
+      console.log("begin adding");
+      console.log(currentSection);
+      if (currentSection != 9) {
+        if ((currentSection == 8 && (ori < 8 || dir == "right")) || (currentSection < 8 && (ori == 8) || dir == "left")) {
+          setTimeout(() => {
+            addText();  
+          }, 500);
+        } 
+        else addText();
       }
     } else{
       if (dir == "left") {
@@ -147,7 +219,6 @@ function slide(dir=null, ori=null, tar=null) {
               } else {
                 become.style.left = becomeWidth + (becomeWidth / 50) + "px";
                 becomeWidth = becomeWidth + (becomeWidth / 50);
-                console.log(becomeWidth);
               }
             }
           }
@@ -155,7 +226,7 @@ function slide(dir=null, ori=null, tar=null) {
           currentPos = currentPos + 10;
         }
       }
-      if (dir == "right") {
+      else if (dir == "right") {
         if (currentSection == 7) {
           currentPos = nextPos;
         }
@@ -164,7 +235,7 @@ function slide(dir=null, ori=null, tar=null) {
             let pullHandler = setInterval(() => {
               pull()
             }, 500);
-            
+            //
             function pull() {
               if (becomeWidth < 1) {
                 clearInterval(pullHandler);
@@ -179,28 +250,98 @@ function slide(dir=null, ori=null, tar=null) {
           currentPos = currentPos - 10;
         }
       }
-      if (ori > tar) {
-        bg.style.left = currentPos + 10 + "px";
-        currentPos = currentPos + 10;
-      }
-      if (ori < tar) {
-        console.log(ori, tar);
-        if (tar == 8) {
-          if(ori == 7) {
-            currentPos == nextPos;
-          }
-          else {
-            nextPos = nextPos - sectionLength;
+      else if (ori > tar) {
+        if (ori == 8) {
+          if (tar == 7){
+            currentPos = nextPos;
+          } else {
+            bg.style.left = currentPos + 10 + "px";
+            currentPos = currentPos + 10;
           }
         } else {
+          if(ori == 9 && 8){
+            let pushHandler = setInterval(() => {
+              push()
+            }, 15);
+
+            function push() {
+              if (becomeWidth > becomeWidthHelper) {
+                clearInterval(pushHandler);
+              } else {
+                become.style.left = becomeWidth + (becomeWidth / 50) + "px";
+                becomeWidth = becomeWidth + (becomeWidth / 50);
+              }
+            }
+          } 
+
+          bg.style.left = currentPos + 10 + "px";
+          currentPos = currentPos + 10;
+        }
+      }
+      else if (ori < tar) {
+        if (tar == 8) {
+          if(ori == 7) {
+            currentPos = nextPos;
+          }
+          else {
+            bg.style.left = currentPos - 10 + "px";
+            currentPos = currentPos - 10;
+          }
+        } else {
+          if (tar == 9 && ori == 8) {
+            let pullHandler = setInterval(() => {
+              pull()
+            }, 500);
+            //
+            function pull() {
+              if (becomeWidth < 1) {
+                clearInterval(pullHandler);
+              } else {
+                become.style.left = becomeWidth - (becomeWidth / 20) + "px";
+                becomeWidth = becomeWidth - (becomeWidth / 20);
+              }
+            } 
+          }
           bg.style.left = currentPos - 10 + "px";
           currentPos = currentPos - 10;
         }
       }
     }
   }
+
+  console.log("done moving");
 }
 
 function roundNumber(v) {
   return Math.round(v / 10) * 10;
+}
+
+function removeText(){
+  const currentClass = step[Object.keys(step)[currentSection]];
+  text.classList.add("animate-remove");
+  subtext.classList.add("animate-remove");
+  setTimeout(() => {
+    text.innerHTML = "";
+    text.classList.remove("animate-remove", currentClass.className);
+  }, 500)
+  setTimeout(() => {
+    subtext.innerHTML = "";
+    subtext.classList.remove("animate-remove", currentClass.className);
+    console.log("done removing");
+  }, 500)
+}
+
+function addText() {
+  const nextClass = step[Object.keys(step)[currentSection]];
+  text.innerHTML = nextClass.text;
+  subtext.innerHTML = nextClass.subtext;
+  text.classList.add(nextClass.className, "animate-add");
+  subtext.classList.add(nextClass.className, "animate-add");
+  setTimeout(() => {
+    text.classList.remove("animate-add");
+  }, 500)
+  setTimeout(() => {
+    subtext.classList.remove("animate-add");
+    console.log("done adding");
+  }, 500)
 }
